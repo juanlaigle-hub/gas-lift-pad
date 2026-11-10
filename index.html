@@ -9,11 +9,12 @@
 :root{
   --bg:#f4f5f2; --panel:#fff; --fg:#17201b; --muted:#5b665f; --line:#dde2dc; --chip:#eef1ec;
   --accent:#b8860b; --accent2:#1f7a5a; --bad:#c0392b; --uni:#7b8794;
+  --s1:#2a78d6; --s2:#eb6834; --neg:#d03b3b; --grid:#e6e8e3; --axis:#b9c0b8; --ink2:#5b665f; --up:#006300; --dn:#b3261e;
   --f:'Inter','Segoe UI',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
   color-scheme:light;
 }
-@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --bg:#101311; --panel:#181c19; --fg:#e7ebe6; --muted:#97a196; --line:#2b322c; --chip:#222823; --accent:#f0b429; --accent2:#51cf66; --uni:#9aa5b1; color-scheme:dark; } }
-:root[data-theme="dark"]{ --bg:#101311; --panel:#181c19; --fg:#e7ebe6; --muted:#97a196; --line:#2b322c; --chip:#222823; --accent:#f0b429; --accent2:#51cf66; --uni:#9aa5b1; color-scheme:dark; }
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --bg:#101311; --panel:#181c19; --fg:#e7ebe6; --muted:#97a196; --line:#2b322c; --chip:#222823; --accent:#f0b429; --accent2:#51cf66; --uni:#9aa5b1; --s1:#3987e5; --s2:#d95926; --neg:#e66767; --grid:#262c27; --axis:#3d463f; --ink2:#a9b2a8; --up:#3ecf5a; --dn:#ff8a80; color-scheme:dark; } }
+:root[data-theme="dark"]{ --bg:#101311; --panel:#181c19; --fg:#e7ebe6; --muted:#97a196; --line:#2b322c; --chip:#222823; --accent:#f0b429; --accent2:#51cf66; --uni:#9aa5b1; --s1:#3987e5; --s2:#d95926; --neg:#e66767; --grid:#262c27; --axis:#3d463f; --ink2:#a9b2a8; --up:#3ecf5a; --dn:#ff8a80; color-scheme:dark; }
 *{box-sizing:border-box} html,body{margin:0}
 body{background:var(--bg); color:var(--fg); font:15px/1.55 var(--f)}
 .wrap{max-width:1180px; margin:0 auto; padding:0 16px 40px}
@@ -45,18 +46,31 @@ select{width:100%; font:500 .9rem var(--f); padding:6px 8px; border-radius:8px; 
 .btn{font:600 .86rem var(--f); border:1px solid var(--accent); background:transparent; color:var(--accent); border-radius:8px; padding:7px 12px; cursor:pointer}
 canvas{width:100%; max-width:100%; display:block}
 .legend{display:flex; flex-wrap:wrap; gap:6px 14px; font-size:.78rem; color:var(--muted); margin-top:6px}
-.legend i{display:inline-block; width:12px; height:3px; border-radius:2px; vertical-align:middle; margin-right:5px}
+.legend i{display:inline-block; width:14px; height:2px; border-radius:2px; vertical-align:middle; margin-right:6px}
+.legend i.sq{width:10px; height:10px; border-radius:2px} .legend i.ds{height:0; border-top:2px dashed var(--ink2); background:none!important}
+.legend i.o{width:9px; height:9px; border-radius:50%; background:none!important; border:2px solid var(--ink2)} .legend i.d{width:9px; height:9px; border-radius:50%}
 table{width:100%; border-collapse:collapse; font-size:.84rem}
 th{text-align:right; font:600 .7rem var(--mono); text-transform:uppercase; letter-spacing:.05em; color:var(--muted); border-bottom:1px solid var(--line); padding:5px 4px}
 td{text-align:right; padding:5px 4px; border-bottom:1px solid var(--line); font-family:var(--mono); font-size:.8rem}
 th:first-child, td:first-child{text-align:left; white-space:nowrap}
-td.up{color:var(--accent2)} td.dn{color:var(--bad)}
+td.up{color:var(--up)} td.dn{color:var(--dn)}
 p.small, .small{font-size:.84rem; color:var(--muted)}
 .bars .row{display:grid; grid-template-columns:150px 1fr 48px; gap:8px; align-items:center; margin:6px 0; font-size:.85rem}
-.bars .bar{height:12px; background:var(--chip); border-radius:6px; overflow:hidden} .bars .bar div{height:100%; background:var(--accent2)}
-.bars .row.top .bar div{background:var(--accent)}
+.bars .bar{height:8px; background:var(--chip); border-radius:4px; overflow:hidden} .bars .bar div{height:100%; background:var(--axis); border-radius:4px}
+.bars .row.top .bar div{background:var(--s1)} .bars .row.top span:first-child{font-weight:600}
+.dev{display:grid; grid-template-columns:150px 1fr 62px; gap:8px; align-items:center; margin:7px 0; font-size:.85rem}
+.dev .trk{position:relative; height:18px} .dev .trk::before{content:''; position:absolute; left:0; right:0; top:8px; height:2px; background:var(--chip)}
+.dev .zona{position:absolute; left:37.5%; width:25%; top:3px; height:12px; background:var(--chip); border-radius:3px}
+.dev .cero{position:absolute; left:50%; top:0; bottom:0; width:1px; background:var(--axis)}
+.dev .b{position:absolute; top:5px; height:8px; background:var(--s1)} .dev .b.neg{background:var(--neg); border-radius:4px 0 0 4px} .dev .b.pos{border-radius:0 4px 4px 0}
+.dev span:last-child{font-family:var(--mono); font-size:.8rem; text-align:right}
+@media (max-width:520px){ .dev,.bars .row{grid-template-columns:104px 1fr 52px; font-size:.78rem} }
+#tip{position:fixed; z-index:20; pointer-events:none; background:var(--panel); color:var(--fg); border:1px solid var(--line); border-radius:8px; box-shadow:0 6px 20px rgba(0,0,0,.14); padding:8px 10px; font-size:.8rem; line-height:1.45; max-width:260px}
+#tip .tt{font-weight:700; margin-bottom:3px} #tip .tr{display:flex; gap:8px; align-items:center; justify-content:space-between; color:var(--muted)} #tip .tr b{color:var(--fg); font-weight:600; font-variant-numeric:tabular-nums; white-space:nowrap}
+#tip .tr i{display:inline-block; width:10px; height:2px; border-radius:2px; margin-right:6px; vertical-align:middle}
+canvas{touch-action:pan-y}
 .res{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin:8px 0}
-.res div{background:var(--chip); border-radius:10px; padding:8px 10px; font-size:.8rem; color:var(--muted)} .res b{display:block; font:700 1.05rem var(--mono); color:var(--fg)}
+.res div{background:var(--chip); border-radius:10px; padding:8px 10px; font-size:.8rem; color:var(--muted)} .res b{display:block; font:700 1.05rem var(--mono); color:var(--fg)} .res i.k{display:inline-block; width:12px; height:2px; border-radius:2px; vertical-align:middle; margin-right:5px}
 .eq{font-family:var(--mono); font-size:.84rem; background:var(--chip); border-radius:8px; padding:8px 10px; margin:6px 0; overflow-x:auto}
 ul{padding-left:18px} li{margin:3px 0}
 footer{margin-top:26px; padding-top:14px; border-top:1px solid var(--line); font-size:.84rem; color:var(--muted)}
@@ -125,9 +139,9 @@ details.tec{margin-top:14px} details.tec summary{cursor:pointer; font-weight:600
 
     <div class="grid">
       <div class="card">
-        <h2>Gas que recibe cada pozo y petróleo que produce</h2>
-        <canvas style="height:330px" id="cBarras" height="330" aria-label="Gas asignado a cada pozo y petróleo producido"></canvas>
-        <div class="legend"><span>▢ contorno: gas en partes iguales</span><span>■ barra: gas del reparto actual</span><span>número arriba: petróleo del pozo [m³/d]</span><span>abajo: cuánto responde al gas (m³/d de petróleo por cada kSm³/d extra)</span></div>
+        <h2>Gas que recibe cada pozo y petróleo que gana o pierde</h2>
+        <canvas style="height:344px" id="cBarras" height="344" role="img" aria-label="Arriba, gas inyectado en cada pozo comparado con el reparto en partes iguales. Abajo, cambio de petróleo de cada pozo. Los valores están en la tabla del panel desplegable."></canvas>
+        <div class="legend"><span><i class="sq" style="background:var(--s1)"></i>gas del reparto actual · petróleo que gana</span><span><i class="sq" style="background:var(--neg)"></i>petróleo que pierde</span><span><i class="ds"></i>gas en partes iguales</span><span>Debajo de cada pozo: cuánto le sirve recibir más gas</span></div>
       </div>
       <div class="card">
         <h2>Qué está pasando</h2>
@@ -148,8 +162,8 @@ details.tec{margin-top:14px} details.tec summary{cursor:pointer; font-weight:600
 
     <details class="tec card">
       <summary>Ver por qué, para ingenieros: curva de respuesta de cada pozo</summary>
-      <canvas style="height:360px" id="cCurvas" height="360" aria-label="Producción de petróleo de cada pozo en función del gas inyectado"></canvas>
-      <div class="legend"><span>○ partes iguales</span><span>● reparto actual</span><span>línea: petróleo producido vs. gas inyectado</span></div>
+      <canvas style="height:372px" id="cCurvas" height="372" role="img" aria-label="Un gráfico por pozo: petróleo producido en función del gas inyectado, con el punto del reparto en partes iguales y el del reparto actual"></canvas>
+      <div class="legend"><span><i style="background:var(--s1)"></i>petróleo [m³/d] según el gas inyectado al pozo [kSm³/d]</span><span><i class="o"></i>partes iguales</span><span><i class="d" style="background:var(--s1)"></i>reparto actual</span></div>
       <p class="small">Sin gas, los pozos ya no surgen (salvo el P-1, recién salido de surgencia); el P-2 está al borde de surgir y arranca con muy poco gas. Al inyectar, la columna se aliviana y la producción sube; con demasiado gas, la fricción domina y baja. En el óptimo, el último m³ de gas rinde aproximadamente lo mismo en todos los pozos que reciben gas. El reparto se calcula con programación dinámica sobre estas curvas.</p>
       <table id="tab"><thead><tr><th>Pozo</th><th>Gas iguales</th><th>Gas actual</th><th>Petróleo actual</th><th>Δ petróleo</th></tr></thead><tbody></tbody></table>
     </details>
@@ -161,9 +175,10 @@ details.tec{margin-top:14px} details.tec summary{cursor:pointer; font-weight:600
     <div class="grid">
       <div class="card">
         <h2>Ensayo de escalones mientras el pozo declina</h2>
-        <canvas style="height:170px" id="cHist" height="170" aria-label="Producción diaria antes y durante el ensayo"></canvas>
-        <canvas style="height:300px" id="cEns" height="300" aria-label="Puntos del ensayo y curvas ajustadas"></canvas>
-        <div class="legend"><span><i style="background:var(--muted)"></i>curva real del simulador (no se conoce en campo)</span><span><i style="background:var(--bad)"></i>parábola ajustada a los puntos</span><span><i style="background:var(--accent2)"></i>modelo físico + declinación</span></div>
+        <canvas style="height:190px" id="cHist" height="190" role="img" aria-label="Producción diaria antes y durante el ensayo, con la declinación estimada por el modelo"></canvas>
+        <div class="legend" style="margin-bottom:14px"><span><i class="d" style="background:var(--axis)"></i>producción diaria a inyección constante</span><span><i class="d" style="background:var(--fg)"></i>medición de cada escalón (el número es el gas inyectado)</span><span><i style="background:var(--s1)"></i>lo que produciría sin cambiar la inyección (modelo)</span></div>
+        <canvas style="height:300px" id="cEns" height="300" role="img" aria-label="Puntos del ensayo, curva real, parábola ajustada y modelo con declinación"></canvas>
+        <div class="legend"><span><i class="d" style="background:var(--fg)"></i>mediciones del ensayo</span><span><i class="ds"></i>curva real del simulador (no se conoce en campo)</span><span><i style="background:var(--s2)"></i>parábola ajustada a los puntos</span><span><i style="background:var(--s1)"></i>modelo físico + declinación</span></div>
       </div>
       <div class="card">
         <h2>¿Qué inyección recomendar?</h2>
@@ -184,7 +199,10 @@ details.tec{margin-top:14px} details.tec summary{cursor:pointer; font-weight:600
       <div class="card">
         <h2>Lo medido contra lo que predice el modelo</h2>
         <div class="res" id="resD"></div>
-        <h2 style="margin-top:14px">Diagnóstico</h2>
+        <h2 style="margin-top:14px">Cuánto se aparta cada medición de lo esperado</h2>
+        <div id="devD"></div>
+        <p class="small" style="margin:.3em 0 0">En desvíos del ruido de medición (σ). La franja gris es la variación normal de un pozo sano (±2 σ); la escala se corta en ±8 σ.</p>
+        <h2 style="margin-top:14px">Diagnóstico: probabilidad de cada causa</h2>
         <div class="bars" id="barsD"></div>
         <p class="small" id="txtD"></p>
       </div>
@@ -242,6 +260,7 @@ details.tec{margin-top:14px} details.tec summary{cursor:pointer; font-weight:600
   </footer>
 </div>
 
+<div id="tip" hidden></div>
 <script src="modelo.js"></script>
 <script>
 (function(){
@@ -249,7 +268,8 @@ details.tec{margin-top:14px} details.tec summary{cursor:pointer; font-weight:600
 const $=id=>document.getElementById(id), css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
 const fmt=(x,d=0)=>x.toLocaleString('es-AR',{minimumFractionDigits:d,maximumFractionDigits:d});
 const M3_BBL=6.2898;
-const COL=['#b8860b','#1f7a5a','#2f6fb3','#a23b72','#c0392b','#6b5b95'];
+const fam=getComputedStyle(document.body).fontFamily, F=(px,w=400)=>w+' '+px+'px '+fam, sg=x=>(x>0?'+':x<0?'−':'')+'';
+const fs=(x,d=1)=>{ const r=+x.toFixed(d); return (r>0?'+':r<0?'−':'')+fmt(Math.abs(r),d); };
 
 /* Tema */
 try{ const t=localStorage.getItem('tema'); if(t) document.documentElement.dataset.theme=t; }catch(e){}
@@ -264,18 +284,34 @@ document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{
 
 /* Gráficos en canvas */
 // La altura de diseño se guarda una sola vez: el atributo height del canvas cambia con la densidad de píxeles y no debe releerse.
-function lienzo(cv){ if(!cv.dataset.h) cv.dataset.h=cv.getAttribute('height'); const r=cv.getBoundingClientRect(), dpr=Math.min(2,window.devicePixelRatio||1), h=+cv.dataset.h; cv.width=Math.max(10,r.width)*dpr; cv.height=h*dpr; cv.style.height=h+'px'; const c=cv.getContext('2d'); c.setTransform(dpr,0,0,dpr,0,0); return {c,W:Math.max(10,r.width),H:h}; }
-function ejes(L,{x0,x1,y0,y1,xl,yl,pad={l:46,r:12,t:10,b:34}}){
+function lienzo(cv,alto){ if(!cv.dataset.h) cv.dataset.h=cv.getAttribute('height'); const r=cv.getBoundingClientRect(), dpr=Math.min(2,window.devicePixelRatio||1), h=alto||+cv.dataset.h; cv.width=Math.max(10,r.width)*dpr; cv.height=h*dpr; cv.style.height=h+'px'; const c=cv.getContext('2d'); c.setTransform(dpr,0,0,dpr,0,0); c.clearRect(0,0,r.width,h); return {c,W:Math.max(10,r.width),H:h}; }
+function marcas(a,b,n=5){ const s=Math.pow(10,Math.floor(Math.log10((b-a)/n))), m=[1,2,5,10].find(k=>(b-a)/(s*k)<=n+1)*s, o=[]; for(let v=Math.ceil(a/m-1e-9)*m; v<=b+1e-9; v+=m) o.push(+v.toFixed(6)); return o; }
+// Ejes sobrios: grilla fina y continua, línea de base, rótulo del eje vertical arriba a la izquierda.
+function ejes(L,{x0,x1,y0,y1,xl,yl,pad={l:40,r:14,t:26,b:36},nx=6}){
   const {c,W,H}=L, X=v=>pad.l+(v-x0)/(x1-x0)*(W-pad.l-pad.r), Y=v=>H-pad.b-(v-y0)/(y1-y0)*(H-pad.t-pad.b);
-  c.clearRect(0,0,W,H); c.font='11px system-ui'; c.fillStyle=css('--muted'); c.strokeStyle=css('--line'); c.lineWidth=1;
-  const nt=(a,b)=>{const s=Math.pow(10,Math.floor(Math.log10((b-a)/4))); const m=[1,2,5,10].find(k=>(b-a)/(s*k)<=6)*s; const o=[]; for(let v=Math.ceil(a/m)*m; v<=b+1e-9; v+=m) o.push(v); return o;};
-  for(const v of nt(y0,y1)){ c.beginPath(); c.moveTo(pad.l,Y(v)); c.lineTo(W-pad.r,Y(v)); c.stroke(); c.textAlign='right'; c.fillText(fmt(v),pad.l-6,Y(v)+4); }
-  for(const v of nt(x0,x1)){ c.textAlign='center'; c.fillText(fmt(v),X(v),H-pad.b+15); }
-  c.textAlign='center'; c.fillText(xl,(pad.l+W-pad.r)/2,H-4); c.save(); c.translate(11,(pad.t+H-pad.b)/2); c.rotate(-Math.PI/2); c.fillText(yl,0,0); c.restore();
-  return {X,Y};
+  c.font=F(11); c.lineWidth=1; c.textBaseline='alphabetic';
+  for(const v of marcas(y0,y1,4)){ c.strokeStyle=css('--grid'); c.beginPath(); c.moveTo(pad.l,Math.round(Y(v))+.5); c.lineTo(W-pad.r,Math.round(Y(v))+.5); c.stroke(); c.fillStyle=css('--muted'); c.textAlign='right'; c.fillText(fmt(v),pad.l-7,Y(v)+4); }
+  c.strokeStyle=css('--axis'); c.beginPath(); c.moveTo(pad.l,Math.round(Y(y0))+.5); c.lineTo(W-pad.r,Math.round(Y(y0))+.5); c.stroke();
+  c.fillStyle=css('--muted'); for(const v of marcas(x0,x1,W<480?4:nx)){ c.textAlign='center'; c.fillText(fmt(v),X(v),H-pad.b+15); }
+  if(xl){ c.textAlign='right'; c.fillText(xl,W-pad.r,H-4); }
+  if(yl){ c.textAlign='left'; c.fillText(yl,0,12); }
+  return {X,Y,pad};
 }
-function linea(c,pts,X,Y,col,w=2,dash){ c.strokeStyle=col; c.lineWidth=w; c.setLineDash(dash||[]); c.beginPath(); pts.forEach((p,i)=>i?c.lineTo(X(p[0]),Y(p[1])):c.moveTo(X(p[0]),Y(p[1]))); c.stroke(); c.setLineDash([]); }
-function punto(c,x,y,col,lleno,r=5){ c.beginPath(); c.arc(x,y,r,0,2*Math.PI); if(lleno){c.fillStyle=col; c.fill();} else {c.strokeStyle=col; c.lineWidth=2; c.fillStyle=css('--panel'); c.fill(); c.stroke();} }
+function linea(c,pts,X,Y,col,w=2,dash){ c.strokeStyle=col; c.lineWidth=w; c.lineJoin='round'; c.lineCap='round'; c.setLineDash(dash||[]); c.beginPath(); pts.forEach((p,i)=>i?c.lineTo(X(p[0]),Y(p[1])):c.moveTo(X(p[0]),Y(p[1]))); c.stroke(); c.setLineDash([]); }
+// punto con anillo del color del fondo, para que se lea sobre las líneas
+function punto(c,x,y,col,lleno,r=4.5){ c.beginPath(); c.arc(x,y,r+(lleno?2:0),0,2*Math.PI); c.fillStyle=css('--panel'); c.fill(); c.beginPath(); c.arc(x,y,r,0,2*Math.PI); if(lleno){ c.fillStyle=col; c.fill(); } else { c.strokeStyle=col; c.lineWidth=2; c.stroke(); } }
+// barra desde la base hasta el valor, redondeada solo en el extremo
+function barra(c,x,yb,yv,w,col){ const top=Math.min(yb,yv), h=Math.abs(yv-yb); if(h<0.5) return; const r=Math.min(4,h), up=yv<yb; c.fillStyle=col; c.beginPath(); if(c.roundRect) c.roundRect(x-w/2,top,w,h,up?[r,r,0,0]:[0,0,r,r]); else c.rect(x-w/2,top,w,h); c.fill(); }
+// texto con halo del color del fondo, para que no se mezcle con líneas
+function rotulo(c,txt,x,y,col){ c.lineJoin='round'; c.strokeStyle=css('--panel'); c.lineWidth=4; c.strokeText(txt,x,y); c.fillStyle=col; c.fillText(txt,x,y); }
+/* Globo de datos al pasar el cursor o tocar */
+const tip=$('tip');
+function mostrarTip(ev,titulo,filas){
+  tip.textContent=''; const h=document.createElement('div'); h.className='tt'; h.textContent=titulo; tip.append(h);
+  for(const [k,v,col] of filas){ const r=document.createElement('div'); r.className='tr'; const a=document.createElement('span'); if(col){ const i=document.createElement('i'); i.style.background=col; a.append(i); } a.append(k); const b=document.createElement('b'); b.textContent=v; r.append(a,b); tip.append(r); }
+  tip.hidden=false; const w=tip.offsetWidth, hh=tip.offsetHeight; let x=ev.clientX+14, y=ev.clientY+14; if(x+w>innerWidth-8) x=ev.clientX-w-14; if(y+hh>innerHeight-8) y=ev.clientY-hh-14; tip.style.left=Math.max(4,x)+'px'; tip.style.top=Math.max(4,y)+'px';
+}
+function alPasar(cv,fn,fuera){ const h=ev=>{ const r=cv.getBoundingClientRect(); if(fn(ev,ev.clientX-r.left,ev.clientY-r.top)===false){ tip.hidden=true; } }; cv.addEventListener('pointermove',h); cv.addEventListener('pointerdown',h); cv.addEventListener('pointerleave',()=>{ tip.hidden=true; fuera(); }); }
 
 /* 1 · Reparto */
 let CURV=null, diaCurv=null, R=null, modo='pet', t=0, anim=null;
@@ -310,7 +346,7 @@ function pintar(){
   narrar(g,pA);
   dibujarBarras(g); dibujarReparto(g);
   const tb=$('tab').querySelector('tbody'); tb.innerHTML='';
-  GL.POZOS.forEach((w,i)=>{ const a=qoEn(R.cs[i],g[i]), d=a-qoEn(R.cs[i],R.gu[i]); tb.insertAdjacentHTML('beforeend',`<tr><td><span style="color:${COL[i]}">●</span> ${w.id}</td><td>${fmt(R.gu[i],0)}</td><td>${fmt(g[i],0)}</td><td>${fmt(a,1)}</td><td class="${d>=0?'up':'dn'}">${d>=0?'+':''}${fmt(d,1)}</td></tr>`); });
+  GL.POZOS.forEach((w,i)=>{ const a=qoEn(R.cs[i],g[i]), d=a-qoEn(R.cs[i],R.gu[i]); tb.insertAdjacentHTML('beforeend',`<tr><td>${w.id}</td><td>${fmt(R.gu[i],0)}</td><td>${fmt(g[i],0)}</td><td>${fmt(a,1)}</td><td class="${+d.toFixed(1)>0?'up':+d.toFixed(1)<0?'dn':''}">${fs(d,1)}</td></tr>`); });
 }
 function nivel(i){ if(R.resp[i]<=0.02) return 'sobra'; const o=[...R.resp].sort((a,b)=>b-a); return R.resp[i]>=o[1]?'mucho':R.resp[i]<=o[4]?'poco':'medio'; }
 const ETQ={mucho:'responde mucho',medio:'responde medio',poco:'responde poco',sobra:'le sobra gas'};
@@ -350,42 +386,58 @@ function setModo(m){ modo=m; $('mPet').setAttribute('aria-pressed',String(m==='p
 $('mPet').onclick=()=>setModo('pet'); $('mGas').onclick=()=>setModo('gas');
 const ESC={base:{cap:120,dia:0},poco:{cap:60,dia:0},sobra:{cap:300,dia:0},viejos:{cap:120,dia:12}};
 document.querySelectorAll('[data-esc]').forEach(b=>b.onclick=()=>{ const e=ESC[b.dataset.esc]; $('cap').value=e.cap; $('dia').value=e.dia; if(b.dataset.esc==='sobra') setModo('gas'); else if(b.dataset.esc==='poco') setModo('pet'); calcReparto(); if(t<0.5) animar(1); });
+let hovB=-1, hovC=null;
 function dibujarBarras(g){
   if($('t-reparto').hidden) return;
-  const L=lienzo($('cBarras')), {c,W,H}=L, pad={l:44,r:10,t:36,b:62};
-  const comp=cw0=>cw0<105;
-  const gmax=Math.max(30,Math.ceil(Math.max(...R.gu,...R.go,...R.gm)*1.35/10)*10), n=6, cw=(W-pad.l-pad.r)/n, bw=Math.min(56,cw*0.5);
-  const Y=v=>H-pad.b-v/gmax*(H-pad.t-pad.b);
-  c.clearRect(0,0,W,H); c.font='11px system-ui'; c.strokeStyle=css('--line'); c.fillStyle=css('--muted'); c.lineWidth=1;
-  for(let v=0;v<=gmax+1e-9;v+=gmax>60?20:10){ c.beginPath(); c.moveTo(pad.l,Y(v)); c.lineTo(W-pad.r,Y(v)); c.stroke(); c.textAlign='right'; c.fillText(v,pad.l-6,Y(v)+4); }
-  c.save(); c.translate(11,(pad.t+H-pad.b)/2); c.rotate(-Math.PI/2); c.textAlign='center'; c.fillText('gas del pozo [kSm³/d]',0,0); c.restore();
-  GL.POZOS.forEach((w,i)=>{
-    const x=pad.l+cw*i+cw/2, gu=R.gu[i], ga=g[i], col=COL[i];
-    c.fillStyle=col; c.globalAlpha=.85; c.fillRect(x-bw/2,Y(ga),bw,Y(0)-Y(ga)); c.globalAlpha=1;
-    c.setLineDash([4,3]); c.strokeStyle=css('--fg'); c.lineWidth=1.3; c.strokeRect(x-bw/2,Y(gu),bw,Y(0)-Y(gu)); c.setLineDash([]);
-    const k=comp(cw), top=Y(Math.max(ga,gu)), dq=ga-gu, qa=qoEn(R.cs[i],ga), dqo=qa-qoEn(R.cs[i],gu);
-    c.textAlign='center';
-    // petróleo del pozo arriba de la barra; en pantallas angostas, la variación va en una línea aparte
-    c.fillStyle=css('--fg'); c.font=(k?'700 12px':'700 13px')+' system-ui';
-    const dTxt=Math.abs(dqo)>=0.05&&t>0.001?((dqo>0?'+':'')+fmt(dqo,1)):'';
-    if(k){ c.fillText(fmt(qa,0),x,top-(dTxt?20:6)); if(dTxt){ c.font='600 11px system-ui'; c.fillStyle=dqo>0?css('--accent2'):css('--bad'); c.fillText(dTxt,x,top-6); } }
-    else c.fillText(fmt(qa,0)+(dTxt?' ('+dTxt+')':''),x,top-6);
-    if(Math.abs(dq)>0.8){ c.fillStyle=dq>0?css('--accent2'):css('--bad'); c.font=(k?'700 11px':'700 12px')+' system-ui'; c.fillText((dq>0?'▲ +':'▼ ')+fmt(dq,0),x,top-(k?(dTxt?34:20):22)); }
-    c.font='700 12px system-ui'; c.fillStyle=col; c.fillText(w.id,x,H-pad.b+16);
-    const nv=nivel(i), rv=Math.abs(R.resp[i])<0.05?0:R.resp[i]; c.font='11px system-ui'; c.fillStyle=nv==='mucho'?css('--accent2'):(nv==='poco'||nv==='sobra')?css('--bad'):css('--muted');
-    c.fillText(k?{mucho:'mucho',medio:'medio',poco:'poco',sobra:'sobra'}[nv]:ETQ[nv],x,H-pad.b+32);
-    c.fillStyle=css('--muted'); c.fillText((rv>0?'+':'')+fmt(rv,1)+(k?'':' m³/d por kSm³/d'),x,H-pad.b+46);
-  });
+  const L=lienzo($('cBarras')), {c,W}=L, pl=34, pr=10, cw=(W-pl-pr)/6, k=cw<105, bw=Math.min(24,cw*0.42);
+  const A={t:30,b:168}, B={t:208,b:296}, zero=(B.t+B.b)/2, d=destino();
+  const gmax=Math.max(30,Math.ceil(Math.max(...R.gu,...R.go,...R.gm)*1.22/10)*10), Y=v=>A.b-v/gmax*(A.b-A.t);
+  const dFin=GL.POZOS.map((w,i)=>qoEn(R.cs[i],d[i])-qoEn(R.cs[i],R.gu[i])), dmax=Math.max(0.5,...dFin.map(Math.abs))*1.75, YD=v=>zero-v/dmax*(B.b-B.t)/2;
+  if(hovB>=0){ c.fillStyle=css('--chip'); c.fillRect(pl+cw*hovB+2,A.t-8,cw-4,B.b-A.t+48); }
+  c.font=F(11); c.textBaseline='alphabetic';
+  // panel superior: gas por pozo
+  c.fillStyle=css('--muted'); c.textAlign='left'; c.fillText(k?'Gas inyectado [kSm³/d]':'Gas inyectado en cada pozo [kSm³/d]',0,12);
+  for(const v of marcas(0,gmax,4)){ c.strokeStyle=css('--grid'); c.lineWidth=1; c.beginPath(); c.moveTo(pl,Math.round(Y(v))+.5); c.lineTo(W-pr,Math.round(Y(v))+.5); c.stroke(); c.fillStyle=css('--muted'); c.textAlign='right'; c.fillText(v,pl-7,Y(v)+4); }
+  c.strokeStyle=css('--axis'); c.beginPath(); c.moveTo(pl,Math.round(A.b)+.5); c.lineTo(W-pr,Math.round(A.b)+.5); c.stroke();
+  GL.POZOS.forEach((w,i)=>barra(c,pl+cw*i+cw/2,A.b,Y(g[i]),bw,css('--s1')));
+  const ye=Math.round(Y(R.gu[0]))+.5; c.strokeStyle=css('--ink2'); c.lineWidth=1.5; c.setLineDash([5,4]); c.beginPath(); c.moveTo(pl,ye); c.lineTo(W-pr,ye); c.stroke(); c.setLineDash([]);
+  c.textAlign='right'; c.font=F(11); c.fillStyle=css('--ink2'); c.fillText((k?'iguales: ':'partes iguales: ')+fmt(R.gu[0],0)+(k?'':' por pozo'),W-pr,12);
+  c.textAlign='center'; c.font=F(12,700);
+  GL.POZOS.forEach((w,i)=>rotulo(c,fmt(g[i],0),pl+cw*i+cw/2,Y(g[i])-6,css('--fg')));
+  // panel inferior: cambio de petróleo frente a partes iguales
+  c.font=F(11); c.fillStyle=css('--muted'); c.textAlign='left'; c.fillText(k?'Cambio de petróleo [m³/d]':'Cambio de petróleo frente a partes iguales [m³/d]',0,B.t-14);
+  c.strokeStyle=css('--axis'); c.lineWidth=1; c.beginPath(); c.moveTo(pl,Math.round(zero)+.5); c.lineTo(W-pr,Math.round(zero)+.5); c.stroke();
+  c.textAlign='right'; c.fillText('0',pl-7,zero+4);
+  GL.POZOS.forEach((w,i)=>{ const x=pl+cw*i+cw/2, v=qoEn(R.cs[i],g[i])-qoEn(R.cs[i],R.gu[i]), r=+v.toFixed(1);
+    barra(c,x,zero,YD(v),bw,v>=0?css('--s1'):css('--neg'));
+    c.textAlign='center'; c.font=F(12,r?700:400); c.fillStyle=r?css('--fg'):css('--muted'); c.fillText(r?fs(v,1):'0',x,v>=0?YD(v)-6:YD(v)+15);
+    c.font=F(12,700); c.fillStyle=css('--fg'); c.fillText(w.id,x,B.b+20);
+    const nv=nivel(i); c.font=F(11); c.fillStyle=css('--muted'); c.fillText(k?{mucho:'mucho',medio:'medio',poco:'poco',sobra:'sobra'}[nv]:ETQ[nv],x,B.b+36); });
 }
+alPasar($('cBarras'),(ev,x)=>{ if(!R) return false; const W=$('cBarras').getBoundingClientRect().width, cw=(W-44)/6, i=Math.floor((x-34)/cw); if(i<0||i>5){ if(hovB!==-1){hovB=-1; dibujarBarras(gasActual());} return false; }
+  if(i!==hovB){ hovB=i; dibujarBarras(gasActual()); } const g=gasActual(), w=GL.POZOS[i], qa=qoEn(R.cs[i],g[i]), rv=Math.abs(R.resp[i])<0.05?0:R.resp[i];
+  mostrarTip(ev,w.id+' · '+w.etapa,[['Gas, partes iguales',fmt(R.gu[i],0)+' kSm³/d'],['Gas, reparto actual',fmt(g[i],0)+' kSm³/d'],['Petróleo',fmt(qa,1)+' m³/d'],['Cambio de petróleo',fs(qa-qoEn(R.cs[i],R.gu[i]),1)+' m³/d'],['Petróleo por cada kSm³/d extra',fs(rv,1)+' m³/d']]); },()=>{ hovB=-1; if(R) dibujarBarras(gasActual()); });
+// Un gráfico chico por pozo, cada uno con su propia escala: así se ve la forma de cada curva.
+function geomC(W){ const cols=W<560?2:3, ph=cols===3?186:170, gap=22, pw=(W-gap*(cols-1))/cols; return {cols,ph,gap,pw,pad:{l:32,r:6,t:30,b:24}}; }
 function dibujarReparto(g){
   if(!R || $('t-reparto').hidden || !document.querySelector('details.tec').open) return;
   g=g||gasActual();
-  const L=lienzo($('cCurvas')), ymax=Math.ceil(Math.max(...R.cs.flat().map(p=>p.qo))/50)*50;
-  const {X,Y}=ejes(L,{x0:0,x1:80,y0:0,y1:ymax,xl:'gas inyectado por pozo [kSm³/d]',yl:'petróleo [m³/d]'});
-  R.cs.forEach((cv,i)=>{ linea(L.c,cv.map(p=>[p.qgi,p.qo]),X,Y,COL[i],2);
-    punto(L.c,X(R.gu[i]),Y(qoEn(cv,R.gu[i])),COL[i],false); punto(L.c,X(g[i]),Y(qoEn(cv,g[i])),COL[i],true);
-    L.c.fillStyle=COL[i]; L.c.font='600 11px system-ui'; L.c.textAlign='left'; L.c.fillText(GL.POZOS[i].id,X(80)-30,Y(cv[80].qo)-6); });
+  const cv=$('cCurvas'), G=geomC(cv.getBoundingClientRect().width), L=lienzo(cv,G.ph*6/G.cols), c=L.c, pad=G.pad;
+  GL.POZOS.forEach((w,i)=>{ const ox=(i%G.cols)*(G.pw+G.gap), oy=Math.floor(i/G.cols)*G.ph, cu=R.cs[i];
+    const mx=Math.max(...cu.map(p=>p.qo)), paso=[10,20,25,50,100].find(s=>mx*1.12/s<=3)||100, ymax=Math.ceil(mx*1.12/paso)*paso;
+    const X=v=>ox+pad.l+v/80*(G.pw-pad.l-pad.r), Y=v=>oy+G.ph-pad.b-v/ymax*(G.ph-pad.t-pad.b);
+    c.textBaseline='alphabetic'; c.textAlign='left'; c.font=F(12,700); c.fillStyle=css('--fg'); c.fillText(w.id,ox,oy+14); const wi=c.measureText(w.id).width;
+    c.font=F(11); c.fillStyle=css('--muted'); c.fillText(' · '+ETQ[nivel(i)],ox+wi,oy+14);
+    for(let v=0;v<=ymax+1e-9;v+=paso){ c.strokeStyle=v?css('--grid'):css('--axis'); c.lineWidth=1; c.beginPath(); c.moveTo(ox+pad.l,Math.round(Y(v))+.5); c.lineTo(ox+G.pw-pad.r,Math.round(Y(v))+.5); c.stroke(); c.fillStyle=css('--muted'); c.textAlign='right'; c.fillText(v,ox+pad.l-6,Y(v)+4); }
+    for(const v of [0,20,40,60,80]){ c.textAlign=v===80?'right':v?'center':'left'; c.fillText(v,X(v)+(v===80?pad.r:0),oy+G.ph-pad.b+15); }
+    if(hovC&&hovC.i===i){ c.strokeStyle=css('--axis'); c.beginPath(); c.moveTo(Math.round(X(hovC.q))+.5,Y(0)); c.lineTo(Math.round(X(hovC.q))+.5,Y(ymax)); c.stroke(); }
+    linea(c,cu.map(p=>[p.qgi,p.qo]),X,Y,css('--s1'),2);
+    punto(c,X(R.gu[i]),Y(qoEn(cu,R.gu[i])),css('--ink2'),false); punto(c,X(g[i]),Y(qoEn(cu,g[i])),css('--s1'),true);
+    if(hovC&&hovC.i===i) punto(c,X(hovC.q),Y(cu[hovC.q].qo),css('--fg'),true,3); });
 }
+alPasar($('cCurvas'),(ev,x,y)=>{ if(!R) return false; const G=geomC($('cCurvas').getBoundingClientRect().width), col=Math.floor(x/(G.pw+G.gap)), row=Math.floor(y/G.ph), i=row*G.cols+col;
+  const q=Math.round((x-col*(G.pw+G.gap)-G.pad.l)/(G.pw-G.pad.l-G.pad.r)*80); if(col>=G.cols||i<0||i>5||q<0||q>80){ if(hovC){hovC=null; dibujarReparto();} return false; }
+  hovC={i,q}; dibujarReparto(); const g=gasActual(); mostrarTip(ev,GL.POZOS[i].id+' con '+q+' kSm³/d de gas',[['Petróleo',fmt(R.cs[i][q].qo,1)+' m³/d',css('--s1')],['Partes iguales ('+fmt(R.gu[i],0)+')',fmt(qoEn(R.cs[i],R.gu[i]),1)+' m³/d'],['Reparto actual ('+fmt(g[i],0)+')',fmt(qoEn(R.cs[i],g[i]),1)+' m³/d']]); },()=>{ hovC=null; dibujarReparto(); });
 document.querySelector('details.tec').addEventListener('toggle',()=>dibujarReparto());
 let tR=null; ['cap','dia','pre'].forEach(id=>$(id).addEventListener('input',()=>{ if(id==='dia'){ document.body.classList.add('busy'); clearTimeout(tR); tR=setTimeout(()=>{calcReparto(); document.body.classList.remove('busy');},60);} else calcReparto(); }));
 
@@ -397,29 +449,50 @@ function calcEnsayo(){
   const w=GL.POZOS[+$('pozoE').value], en=GL.ensayo(w,{seed}), par=GL.ajusteParabola(en.test), fit=GL.ajusteModelo(w,en.hist.concat(en.test));
   const kV=GL.factorDecl(en.tFin), kM=fit.f*GL.factorDecl(en.tFin,{Di:fit.Di,b:GL.DECL.b});
   const cV=GL.curvaK(w,kV), cM=GL.curvaK(w,kM), am=a=>a.reduce((x,y)=>y.qo>x.qo?y:x);
-  E={w,en,par,fit,cV,cM,oV:am(cV),oM:am(cM)};
+  const esp=[]; for(let d=0; d<=en.tFin; d+=2) esp.push([d,GL.operar(w,25,0,{prodFac:fit.f*GL.factorDecl(d,{Di:fit.Di,b:GL.DECL.b})}).qo]);
+  E={w,en,par,fit,cV,cM,oV:am(cV),oM:am(cM),esp};
   const errP=E.par.qopt-E.oV.qgi, errM=E.oM.qgi-E.oV.qgi;
-  $('optE').innerHTML=`<div><b>${E.oV.qgi}</b>óptimo real (simulador)</div><div><b style="color:var(--bad)">${isFinite(E.par.qopt)?fmt(E.par.qopt,0):'—'}</b>parábola (${errP>=0?'+':''}${fmt(errP,0)})</div><div><b style="color:var(--accent2)">${E.oM.qgi}</b>modelo + declinación (${errM>=0?'+':''}${errM})</div>`;
+  $('optE').innerHTML=`<div><b>${E.oV.qgi}</b>óptimo real (simulador)</div><div><b>${isFinite(E.par.qopt)?fmt(E.par.qopt,0):'—'}</b><i class="k" style="background:var(--s2)"></i>parábola (${isFinite(errP)?fs(errP,0):'sin máximo'})</div><div><b>${E.oM.qgi}</b><i class="k" style="background:var(--s1)"></i>modelo + declinación (${errM?fs(errM,0):'0'})</div>`;
   $('queE').innerHTML=isFinite(E.par.qopt)?`<b>En palabras:</b> con la parábola se inyectarían unos <b>${fmt(E.par.qopt,0)}</b> kSm³/d en este pozo; lo que realmente le conviene son <b>${E.oV.qgi}</b>. El modelo con la declinación recomienda <b>${E.oM.qgi}</b>. En un pad con muchos pozos, esos errores se suman y el gas termina donde menos rinde.`:'<b>En palabras:</b> con estos puntos la parábola ni siquiera tiene un máximo: el ensayo no es concluyente, como describe el trabajo técnico. El modelo con la declinación sí da una recomendación.';
   dibujarEnsayo();
 }
+let hovE=null, hovH=null;
 function dibujarEnsayo(){
   if(!E || $('t-ensayo').hidden) return;
-  const pts=E.en.hist.concat(E.en.test), ymax=Math.ceil(Math.max(...pts.map(p=>p.qo))*1.08/10)*10, ymin=Math.floor(Math.min(...pts.map(p=>p.qo))*0.9/10)*10;
-  let L=lienzo($('cHist')); let a=ejes(L,{x0:0,x1:E.en.tFin+2,y0:ymin,y1:ymax,xl:'día',yl:'petróleo [m³/d]'});
-  L.c.fillStyle=css('--chip'); L.c.fillRect(a.X(30),10,a.X(E.en.tFin+2)-a.X(30),L.H-44);
-  L.c.fillStyle=css('--muted'); L.c.font='11px system-ui'; L.c.textAlign='left'; const corto=L.W<560; L.c.fillText(corto?'historia':'historia a inyección constante',a.X(1),22); L.c.fillText(corto?'ensayo':'ensayo de escalones',a.X(31),22);
-  E.en.hist.forEach(p=>punto(L.c,a.X(p.t),a.Y(p.qo),css('--muted'),true,2.5));
-  E.en.test.forEach(p=>{ punto(L.c,a.X(p.t),a.Y(p.qo),css('--accent'),true,4.5); L.c.fillStyle=css('--fg'); L.c.textAlign='center'; L.c.fillText(p.qgi,a.X(p.t),a.Y(p.qo)-8); });
-  L=lienzo($('cEns')); const y1=Math.ceil(Math.max(...E.cV.map(p=>p.qo),...E.en.test.map(p=>p.qo))*1.1/10)*10;
-  a=ejes(L,{x0:0,x1:80,y0:0,y1,xl:'gas inyectado [kSm³/d]',yl:'petróleo [m³/d]'});
-  linea(L.c,E.cV.map(p=>[p.qgi,p.qo]),a.X,a.Y,css('--muted'),2,[5,4]);
-  linea(L.c,E.cM.map(p=>[p.qgi,p.qo]),a.X,a.Y,css('--accent2'),2.4);
-  const pp=[]; for(let q=5;q<=75;q+=1) pp.push([q,E.par.f(q)]); linea(L.c,pp.filter(p=>p[1]>0),a.X,a.Y,css('--bad'),2);
-  E.en.test.forEach(p=>punto(L.c,a.X(p.qgi),a.Y(p.qo),css('--accent'),true,5));
-  const mk=(q,col)=>{ if(!isFinite(q)||q<0||q>80) return; L.c.strokeStyle=col; L.c.lineWidth=1.2; L.c.setLineDash([3,3]); L.c.beginPath(); L.c.moveTo(a.X(q),a.Y(0)); L.c.lineTo(a.X(q),10); L.c.stroke(); L.c.setLineDash([]); };
-  mk(E.oV.qgi,css('--muted')); mk(E.par.qopt,css('--bad')); mk(E.oM.qgi,css('--accent2'));
+  const pts=E.en.hist.concat(E.en.test), ymax=Math.ceil(Math.max(...pts.map(p=>p.qo))*1.06/10)*10, ymin=Math.floor(Math.min(...pts.map(p=>p.qo))*0.93/10)*10;
+  let L=lienzo($('cHist')), c=L.c; const x1=E.en.tFin+2;
+  let a=ejes(L,{x0:0,x1,y0:ymin,y1:ymax,xl:'día',yl:'Petróleo [m³/d]'});
+  c.fillStyle=css('--chip'); c.globalAlpha=.6; c.fillRect(a.X(30),a.pad.t,a.X(x1)-a.X(30),L.H-a.pad.t-a.pad.b); c.globalAlpha=1;
+  c.fillStyle=css('--muted'); c.font=F(11); c.textAlign='left'; const corto=L.W<560; c.fillText(corto?'historia':'historia a inyección constante',a.X(0)+6,a.pad.t+13); c.fillText(corto?'ensayo':'ensayo de escalones',a.X(30)+6,a.pad.t+13);
+  linea(c,E.esp,a.X,a.Y,css('--s1'),2);
+  E.en.hist.forEach(p=>{ c.beginPath(); c.arc(a.X(p.t),a.Y(p.qo),2.5,0,2*Math.PI); c.fillStyle=css('--axis'); c.fill(); });
+  c.font=F(11,600); c.textAlign='center';
+  E.en.test.forEach(p=>{ punto(c,a.X(p.t),a.Y(p.qo),css('--fg'),true,4.5); rotulo(c,String(p.qgi),a.X(p.t),a.Y(p.qo)-10,css('--fg')); });
+  if(hovH){ c.beginPath(); c.arc(a.X(hovH.t),a.Y(hovH.qo),7,0,2*Math.PI); c.strokeStyle=css('--fg'); c.lineWidth=1.5; c.stroke(); }
+  L=lienzo($('cEns')); c=L.c;
+  const vis=E.cV.concat(E.cM).filter(p=>p.qgi>=5).map(p=>p.qo).concat(E.en.test.map(p=>p.qo));
+  const lo=Math.min(...vis), hi=Math.max(...vis), y0=Math.max(0,Math.floor((lo-(hi-lo)*0.25)/5)*5), y1=Math.ceil((hi+(hi-lo)*0.3)/5)*5;
+  a=ejes(L,{x0:0,x1:80,y0,y1,xl:'gas inyectado [kSm³/d]',yl:'Petróleo [m³/d] · el eje no empieza en cero, para ver la diferencia entre curvas',nx:8});
+  if(L.W<560){ c.clearRect(0,0,L.W,16); c.fillStyle=css('--muted'); c.textAlign='left'; c.fillText('Petróleo [m³/d] · eje ampliado',0,12); }
+  c.save(); c.beginPath(); c.rect(a.pad.l,a.pad.t-4,L.W-a.pad.l-a.pad.r,L.H-a.pad.t-a.pad.b+4); c.clip();
+  const opt=(q,col)=>{ if(!isFinite(q)||q<0||q>80) return; c.strokeStyle=col; c.lineWidth=1; c.beginPath(); c.moveTo(Math.round(a.X(q))+.5,a.Y(y0)); c.lineTo(Math.round(a.X(q))+.5,a.pad.t+16); c.stroke(); };
+  opt(E.oV.qgi,css('--ink2')); opt(E.par.qopt,css('--s2')); opt(E.oM.qgi,css('--s1'));
+  linea(c,E.cV.map(p=>[p.qgi,p.qo]),a.X,a.Y,css('--ink2'),2,[5,4]);
+  const pp=[]; for(let q=5;q<=75;q+=1) pp.push([q,E.par.f(q)]); linea(c,pp,a.X,a.Y,css('--s2'),2);
+  linea(c,E.cM.map(p=>[p.qgi,p.qo]),a.X,a.Y,css('--s1'),2);
+  if(hovE!=null){ c.strokeStyle=css('--axis'); c.lineWidth=1; c.beginPath(); c.moveTo(Math.round(a.X(hovE))+.5,a.Y(y0)); c.lineTo(Math.round(a.X(hovE))+.5,a.pad.t); c.stroke(); }
+  E.en.test.forEach(p=>punto(c,a.X(p.qgi),a.Y(p.qo),css('--fg'),true,4.5));
+  c.restore();
+  // rótulos de los óptimos, uno a cada lado para que no se pisen
+  c.font=F(11,600); const izq=!(E.par.qopt<E.oV.qgi);
+  c.textAlign=izq?'right':'left'; rotulo(c,'óptimo real '+E.oV.qgi,a.X(E.oV.qgi)+(izq?-5:5),a.pad.t+12,css('--ink2'));
+  if(isFinite(E.par.qopt)&&E.par.qopt>=0&&E.par.qopt<=80){ c.textAlign=izq?'left':'right'; rotulo(c,'parábola '+fmt(E.par.qopt,0),a.X(E.par.qopt)+(izq?5:-5),a.pad.t+12,css('--fg')); }
 }
+alPasar($('cEns'),(ev,x)=>{ if(!E) return false; const W=$('cEns').getBoundingClientRect().width, q=Math.round((x-40)/(W-54)*80); if(q<0||q>80){ hovE=null; dibujarEnsayo(); return false; }
+  hovE=q; dibujarEnsayo(); const f=[['Curva real',fmt(E.cV[q].qo,1)+' m³/d',css('--ink2')],['Modelo + declinación',fmt(E.cM[q].qo,1)+' m³/d',css('--s1')]]; if(q>=5&&q<=75) f.splice(1,0,['Parábola',fmt(E.par.f(q),1)+' m³/d',css('--s2')]);
+  const m=E.en.test.find(p=>p.qgi===q); if(m) f.push(['Medición del ensayo (día '+m.t+')',fmt(m.qo,1)+' m³/d']); mostrarTip(ev,'Con '+q+' kSm³/d de gas',f); },()=>{ hovE=null; dibujarEnsayo(); });
+alPasar($('cHist'),(ev,x)=>{ if(!E) return false; const W=$('cHist').getBoundingClientRect().width, d=(x-40)/(W-54)*(E.en.tFin+2), all=E.en.hist.concat(E.en.test), p=all.reduce((u,v)=>Math.abs(v.t-d)<Math.abs(u.t-d)?v:u);
+  if(d<-1||d>E.en.tFin+3){ hovH=null; dibujarEnsayo(); return false; } hovH=p; dibujarEnsayo(); mostrarTip(ev,'Día '+p.t+(p.t>30?' · ensayo':' · historia'),[['Gas inyectado',p.qgi+' kSm³/d'],['Petróleo medido',fmt(p.qo,1)+' m³/d']]); },()=>{ hovH=null; dibujarEnsayo(); });
 $('pozoE').onchange=()=>{ seed=7; calcEnsayo(); }; $('otra').onclick=()=>{ seed=(seed*31+11)%100000; calcEnsayo(); };
 
 /* 3 · Diagnóstico */
@@ -432,6 +505,8 @@ function calcDiag(){
   const m=GL.medir(w,qg,0,cl,rngD,sev), d=GL.diagnosticar(w,qg,0,m); Dg={w,m,d,cl};
   const f=(v,d2=1)=>fmt(v,d2);
   $('resD').innerHTML=`<div>Caudal de líquido<b>${f(m.ql)} m³/d</b>modelo: ${f(d.pred.ql)}</div><div>Presión de casing<b>${f(m.pc/1e6,2)} MPa</b>modelo: ${f(d.pred.pc/1e6,2)}</div><div>Corte de agua<b>${f(m.wct*100,0)} %</b>modelo: ${f(d.pred.wct*100,0)} %</div>`;
+  const z=d.r.map((v,i)=>v/GL.ESCALA[i]), nom=['Caudal de líquido','Presión de casing','Corte de agua'];
+  $('devD').innerHTML=z.map((v,i)=>{ const u=Math.max(-8,Math.min(8,v)), w=Math.abs(u)/8*50; return `<div class="dev"><span>${nom[i]}</span><div class="trk"><div class="zona"></div><div class="cero"></div><div class="b ${u<0?'neg':'pos'}" style="${u<0?'right':'left'}:50%;width:${w.toFixed(1)}%"></div></div><span>${Math.abs(v)>8?(v>0?'> +8':'< −8'):fs(v,1)} σ</span></div>`; }).join('');
   const orden=Object.keys(d.P).sort((a,b)=>d.P[b]-d.P[a]);
   $('barsD').innerHTML=orden.map((k,i)=>`<div class="row${i===0?' top':''}"><span>${GL.ANOMALIAS[k].nombre}</span><div class="bar"><div style="width:${(d.P[k]*100).toFixed(1)}%"></div></div><span style="font-family:var(--mono);text-align:right">${fmt(d.P[k]*100)} %</span></div>`).join('');
   const top=orden[0], ok=top===cl;

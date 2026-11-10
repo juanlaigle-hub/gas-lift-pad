@@ -235,5 +235,5 @@
     return { pred, r, P, H, sev };
   }
 
-  return { C, POZOS, DECL, factorDecl, ipr, columna, operar, curva, optimizar, uniforme, producir, ensayo, ajusteParabola, ajusteModelo, curvaK, rng, normal, ANOMALIAS, anomalia, medir, diagnosticar, presionCasing };
+  return { C, POZOS, DECL, factorDecl, ipr, columna, operar, curva, optimizar, uniforme, producir, ensayo, ajusteParabola, ajusteModelo, curvaK, rng, normal, ANOMALIAS, ESCALA, anomalia, medir, diagnosticar, presionCasing };
 });
