@@ -364,14 +364,14 @@ function narrar(g,pA){
         '<br><b>Qué mirar:</b> al optimizar, el gas pasa de unos pozos a otros (barras) y el total de arriba cambia.';
   } else {
     const p1=R.cs[0][0].qo>0&&dan.some(x=>x.i===0);
-    txt=(dan.length?'<b>Le saca gas</b> a '+lista(dan.map(x=>x.id+' ('+fmt(x.dq,0)+')'))+(p1?': el P-1 todavía fluye casi solo y el gas le agrega muy poco':': el gas extra les agrega poco petróleo')+'. ':'')+
+    txt=(dan.length?'<b>Le saca gas</b> a '+lista(dan.map(x=>x.id+' ('+fs(x.dq,0)+')'))+(dan.length>=5?': a casi todos les sobra, y con menos gas producen lo mismo o más':p1?': el P-1 todavía fluye casi solo y el gas le agrega muy poco':': el gas extra les agrega poco petróleo')+'. ':'')+
         (rec.length?'<b>Se lo da</b> a '+lista(rec.map(x=>x.id+' (+'+fmt(x.dq,0)+')'))+', donde cada m³ rinde más. ':'')+
-        (modo==='pet'?'Resultado: <b>'+(pA>=R.pU?'+':'')+fmt(pA-R.pU,1)+' m³/d</b> con el mismo gas.':'Resultado: la misma producción con <b>'+fmt(R.cap-g.reduce((a,b)=>a+b,0),0)+' kSm³/d menos</b>.');
+        (modo==='pet'?'Resultado: <b>'+fs(pA-R.pU,1)+' m³/d</b> con el mismo gas.':'Resultado: la misma producción con <b>'+fmt(R.cap-g.reduce((a,b)=>a+b,0),0)+' kSm³/d menos</b>.');
   }
   // contexto según las condiciones elegidas
   const ctx=[];
   if(R.cap/6<15) ctx.push('Hay <b>poco gas</b>: cada m³ vale mucho y repartirlo bien es lo que más rinde en petróleo.');
-  if(sobra) ctx.push('<b>Sobra gas</b>: en partes iguales algunos pozos reciben más de lo que les conviene (con exceso de gas, la fricción baja la producción). Por eso el mayor beneficio es <b>ahorrar gas</b>: probá el objetivo «el mismo petróleo con menos gas».');
+  if(sobra) ctx.push('<b>Sobra gas</b>: en partes iguales algunos pozos reciben más de lo que les conviene (con exceso de gas, la fricción baja la producción). Por eso el mayor beneficio es <b>ahorrar gas</b>'+(modo==='gas'?'.':': probá el objetivo «el mismo petróleo con menos gas».'));
   if(R.mes>=6) ctx.push('Con los pozos <b>más viejos</b>, todos producen menos y responden más parecido: el beneficio de repartir bien es menor.');
   if(!ctx.length) ctx.push('Probá los escenarios de abajo para ver cuándo conviene más optimizar.');
   $('que').innerHTML=txt+'<br><br>'+ctx.join(' ');
@@ -385,7 +385,7 @@ $('bOpt').onclick=()=>animar(1); $('bUni').onclick=()=>animar(0);
 function setModo(m){ modo=m; $('mPet').setAttribute('aria-pressed',String(m==='pet')); $('mGas').setAttribute('aria-pressed',String(m==='gas')); pintar(); }
 $('mPet').onclick=()=>setModo('pet'); $('mGas').onclick=()=>setModo('gas');
 const ESC={base:{cap:120,dia:0},poco:{cap:60,dia:0},sobra:{cap:300,dia:0},viejos:{cap:120,dia:12}};
-document.querySelectorAll('[data-esc]').forEach(b=>b.onclick=()=>{ const e=ESC[b.dataset.esc]; $('cap').value=e.cap; $('dia').value=e.dia; if(b.dataset.esc==='sobra') setModo('gas'); else if(b.dataset.esc==='poco') setModo('pet'); calcReparto(); if(t<0.5) animar(1); });
+document.querySelectorAll('[data-esc]').forEach(b=>b.onclick=()=>{ const e=ESC[b.dataset.esc]; $('cap').value=e.cap; $('dia').value=e.dia; setModo(b.dataset.esc==='sobra'?'gas':'pet'); calcReparto(); if(t<0.5) animar(1); });
 let hovB=-1, hovC=null;
 function dibujarBarras(g){
   if($('t-reparto').hidden) return;
