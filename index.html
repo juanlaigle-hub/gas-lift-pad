@@ -475,8 +475,8 @@ function dibujarEnsayo(){
   a=ejes(L,{x0:0,x1:80,y0,y1,xl:'gas inyectado [kSm³/d]',yl:'Petróleo [m³/d] · el eje no empieza en cero, para ver la diferencia entre curvas',nx:8});
   if(L.W<560){ c.clearRect(0,0,L.W,16); c.fillStyle=css('--muted'); c.textAlign='left'; c.fillText('Petróleo [m³/d] · eje ampliado',0,12); }
   c.save(); c.beginPath(); c.rect(a.pad.l,a.pad.t-4,L.W-a.pad.l-a.pad.r,L.H-a.pad.t-a.pad.b+4); c.clip();
-  const opt=(q,col)=>{ if(!isFinite(q)||q<0||q>80) return; c.strokeStyle=col; c.lineWidth=1; c.beginPath(); c.moveTo(Math.round(a.X(q))+.5,a.Y(y0)); c.lineTo(Math.round(a.X(q))+.5,a.pad.t+16); c.stroke(); };
-  opt(E.oV.qgi,css('--ink2')); opt(E.par.qopt,css('--s2')); opt(E.oM.qgi,css('--s1'));
+  const opt=(q,col)=>{ if(!isFinite(q)||q<0||q>80) return; c.strokeStyle=col; c.lineWidth=1.5; c.beginPath(); c.moveTo(Math.round(a.X(q))+.5,a.Y(y0)); c.lineTo(Math.round(a.X(q))+.5,a.pad.t+16); c.stroke(); };
+  opt(E.oM.qgi,css('--s1')); opt(E.par.qopt,css('--s2')); opt(E.oV.qgi,css('--ink2'));
   linea(c,E.cV.map(p=>[p.qgi,p.qo]),a.X,a.Y,css('--ink2'),2,[5,4]);
   const pp=[]; for(let q=5;q<=75;q+=1) pp.push([q,E.par.f(q)]); linea(c,pp,a.X,a.Y,css('--s2'),2);
   linea(c,E.cM.map(p=>[p.qgi,p.qo]),a.X,a.Y,css('--s1'),2);
