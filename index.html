@@ -88,6 +88,11 @@ footer a{color:var(--fg)}
 .big{font:800 clamp(1.6rem,3.6vw,2.3rem)/1.1 var(--f); margin:8px 0 2px; color:var(--accent2)}
 .big.neutro{color:var(--fg)}
 .sub2{font-size:.88rem; color:var(--muted)}
+.ind{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin-top:12px; max-width:560px}
+@media (max-width:520px){ .ind{grid-template-columns:minmax(0,1fr)} }
+.ind div{background:var(--chip); border-radius:10px; padding:8px 10px; font-size:.8rem; color:var(--muted); line-height:1.35}
+.ind b{display:block; font:700 1.05rem var(--f); color:var(--fg); margin:1px 0}
+.ind .de{font-weight:600; white-space:nowrap} .ind .de.up{color:var(--up)} .ind .de.dn{color:var(--dn)} .ind .de.nt{color:var(--ink2)}
 .acc{display:flex; flex-direction:column; gap:8px; min-width:210px}
 .btn.prim{background:var(--accent); color:#fff; border-color:var(--accent); font-size:.95rem; padding:10px 14px}
 .que{background:var(--chip); border-radius:10px; padding:10px 12px; font-size:.9rem; line-height:1.5}
@@ -130,6 +135,7 @@ details.tec{margin-top:14px} details.tec summary{cursor:pointer; font-weight:600
         </div>
         <div class="big neutro" id="big">—</div>
         <div class="sub2" id="bigSub">—</div>
+        <div class="ind" id="ind" aria-live="polite"></div>
       </div>
       <div class="acc">
         <button class="btn prim" id="bOpt">▶ Repartir según la respuesta de cada pozo</button>
@@ -343,6 +349,12 @@ function pintar(){
     sub.innerHTML='Con el mismo gas ('+R.cap+' kSm³/d): '+fmt(R.pU)+' → <b>'+fmt(pA)+' m³/d</b>. A '+R.pre+' US$/bbl son unos <b>US$ '+fmt(extra/1e6,2)+' millones por año</b>.'; }
   else { const ah=R.cap-gasA; big.className='big'; big.textContent='−'+fmt(ah,0)+' kSm³/d de gas ('+fmt(ah/R.cap*100,0)+' % menos)';
     sub.innerHTML='Para producir los mismos '+fmt(R.pU)+' m³/d alcanzan <b>'+fmt(gasA,0)+' kSm³/d</b> en vez de '+R.cap+'. Ese gas queda libre para pozos nuevos o para comprimir menos.'; }
+  // Indicadores: eficiencia del gas y uso del compresor, comparados con el reparto en partes iguales
+  const efU=R.pU/R.cap, efA=gasA>0?pA/gasA:0, usoA=gasA/R.cap*100, dEf=efA-efU, dUso=usoA-100;
+  const flecha=(d,dec)=>Math.abs(+d.toFixed(dec))>0?(d>0?'▲ ':'▼ ')+fs(d,dec):'= sin cambio';
+  const cls=(d,dec,bueno)=>Math.abs(+d.toFixed(dec))===0?'nt':bueno===0?'nt':(d>0)===(bueno>0)?'up':'dn';
+  $('ind').innerHTML=`<div>Petróleo por gas inyectado<b>${fmt(efA,2)} m³ por kSm³</b>partes iguales: ${fmt(efU,2)} · <span class="de ${cls(dEf,2,1)}">${flecha(dEf,2)}</span></div>`+
+    `<div>Uso del compresor<b>${fmt(usoA,0)} % · ${fmt(gasA,0)} de ${R.cap} kSm³/d</b>partes iguales: 100 % · <span class="de ${cls(dUso,0,modo==='gas'?-1:0)}">${flecha(dUso,0)}${Math.abs(dUso)>=0.5?' pts':''}</span></div>`;
   narrar(g,pA);
   dibujarBarras(g); dibujarReparto(g);
   const tb=$('tab').querySelector('tbody'); tb.innerHTML='';
