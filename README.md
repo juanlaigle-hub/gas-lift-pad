@@ -12,7 +12,7 @@ Modelo físico de 6 pozos con gas lift que comparten la misma compresión. La de
 | **2 · Ensayo con declinación** | Un ensayo de escalones en un pozo que declina: la parábola ajustada a los puntos confunde declinación con respuesta al gas | Error típico al estimar la inyección óptima (mediana de 60 ensayos simulados): unos 3 kSm³/d con la parábola y entre 0 y 1 kSm³/d con el modelo físico y la declinación estimada de la historia previa |
 | **3 · Diagnóstico** | Compara lo medido (caudal de líquido, presión de casing, corte de agua) con lo que predice el modelo, muestra cuánto se aparta cada medición de lo esperado y estima la causa más probable | Reconoce parafina, inyección por una válvula superior y frac hit con entrada de agua; con anomalías leves duda, y en operación normal da falsas alarmas en ~12 % de las mediciones |
 
-El problema de la pestaña 2 es el que describe el trabajo técnico SPE-212577-MS (2023) sobre gas lift en Vaca Muerta: las curvas de optimización no fueron concluyentes porque los pozos tardan en estabilizarse y la declinación distorsiona los resultados, y la optimización debe hacerse a nivel de pad.
+El problema de la pestaña 2 es el que describe el resumen del trabajo técnico SPE-212577-MS (2023) sobre gas lift en Vaca Muerta: las curvas de optimización no fueron concluyentes porque los pozos tardan tanto en estabilizarse que la declinación afecta los resultados. Una revisión posterior (*Applied Sciences* 14(4), 1366, 2024) señala además que la inyección conviene optimizarla a nivel de pad y no solo de pozo, que es el enfoque de la pestaña 1.
 
 ## Modelo
 
